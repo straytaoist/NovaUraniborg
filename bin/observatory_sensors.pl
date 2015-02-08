@@ -22,6 +22,7 @@ use lib 'lib';
 use Uraniborg::Twitter;
 use Uraniborg::Sensors::ReadSerial;
 
+use Time::Piece;
 use Time::Seconds;
 use Try::Tiny;
 
@@ -30,8 +31,9 @@ my $reader = Uraniborg::Sensors::ReadSerial->new;
 
 sub _record_temp {
     (my $temp = shift) =~ m/(\d\d\.\d\d)/;
+    my $now = Time::Piece->new->strftime('%Y-%m-%d,%H:%M:%S');
     open OUT, '>>', 'temp.csv';
-    print OUT "$1\n";
+    print OUT "$now,$1\n";
     close OUT;
 }
 
@@ -43,7 +45,7 @@ while (1) {
         print "Tweeted: $message\n";
         }
     catch {
-        print "$_\n";
+        print "$_ ($message)\n";
         };
-    sleep ONE_HOUR;
+    sleep (ONE_MINUTE * 30);
     }
