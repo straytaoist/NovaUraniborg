@@ -107,7 +107,6 @@ void loop() {
     universal_time(ut);
     u8g.drawStr(30, 15, ut);
     u8g.drawStr(30, 35, st);
-    //u8g.drawStr(30, 35, "10:53:12");
 
   } while(u8g.nextPage());
   delay(1000);
